@@ -26,17 +26,17 @@ test.describe('Logged in user tests', () => {
     await page.getByRole('link', { name: 'Sakimafia122' }).waitFor();
     });
 
-    test('Profile is visible', async ({page}) => {
+    test('@smoke Profile is visible', async ({page}) => {
         await expect(page.getByRole('link', {name: username})).toBeVisible();
     })
 
-    test('My feed', async ({page}) => {
+    test('@smoke @regression My feed', async ({page}) => {
         await page.getByText(' Your Feed ').click()
 
         await expect(page.getByText('No articles are here... yet.')).toBeVisible();
     })
 
-    test('Logout and login with wrong password', async ({page}) => {
+    test('@smoke Logout and login with wrong password', async ({page}) => {
         await page.getByRole('link', {name: username}).click();
 
         await expect(page.locator('a', {hasText: ' Edit Profile Settings '})).toBeVisible();
@@ -61,7 +61,7 @@ test.describe('Logged in user tests', () => {
         await expect(page.locator('li', {hasText: 'email or password is invalid'})).toBeVisible();
     })
 
-    test('Articles are filtered by tags', async ({page}) => {
+    test('@regression Articles are filtered by tags', async ({page}) => {
         const tagName = 'YouTube';
 
         const youtubeTag = await page.locator('.tag-list a.tag-default', { hasText: tagName })
@@ -86,7 +86,7 @@ test.describe('Logged in user tests', () => {
         }
     })
 
-    test('External links in another tab', async ({page}) => {
+    test('@smoke External links in another tab', async ({page}) => {
 
         //Logout
         //await page.getByRole('link', {name: username}).click();
@@ -113,7 +113,7 @@ await newPage.close();
     });
 
     
-    test("Add a new article", async ({page}) => {
+    test("@smoke Add a new article", async ({page}) => {
         await page.locator("a", {hasText: " New Article "}).click();
         await expect(page).toHaveURL('https://conduit.bondaracademy.com/editor');
 
@@ -151,7 +151,7 @@ await newPage.close();
 
     })
 
-    test('The same article cannot be added again', async ({page}) => {
+    test('@smoke The same article cannot be added again', async ({page}) => {
 
         await page.locator("a", {hasText: " New Article "}).click();
         await expect(page).toHaveURL('https://conduit.bondaracademy.com/editor');
