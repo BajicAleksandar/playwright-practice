@@ -2,7 +2,9 @@
   "name": "api-test",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "Chome-run": "npx playwright test tests/E2E.spec.ts --project=chromium --reporter=html"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

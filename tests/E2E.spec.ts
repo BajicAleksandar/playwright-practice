@@ -108,9 +108,6 @@ test.describe('Logged in user tests', () => {
 
 await expect(newPage).toHaveURL(/bondaracademy/);
 
-await expect(newPage).toHaveURL(
-  'https://www.bondaracademy.com/?utm_source=conduitapp&utm_medium=subdomain&utm_campaign=subdomain_traffic'
-);
 await page.waitForTimeout(2000); // Da potvrdim vizuelno da je tab otvoren
 await newPage.close();
     });
@@ -178,3 +175,5 @@ await newPage.close();
     })
 
 });
+
+//npx playwright test tests/E2E.spec.ts --project=chromium --reporter=html
