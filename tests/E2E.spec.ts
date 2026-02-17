@@ -11,6 +11,7 @@ test.describe('Logged in user tests', () => {
     //Articles
     const comment = 'Ovo je moj prvi komentar';
     const title = 'Novak Djokovic je sampion';
+    const title2 = 'Novak Djokovic je sampion svemira i novi predsednik Srbije';
     const description = 'Sampion tenisa i direktor univerzuma';
     const tags = 'Tennis';
     const content = "Новак Ђоковић српски је тенисер. На првом месту АТП листе је провео 428 недеља што је најдужи период у историји отворене ере.";
@@ -196,6 +197,19 @@ await newPage.close();
 
         await commentField.locator('.ion-trash-a').click();
         await expect(page.locator('.card-text', {hasText: comment})).not.toBeVisible();
+    })
+
+    test('@smoke Edit Article', async ({page}) => {
+
+        await page.locator(`a[href="/profile/${username}"]`).first().click();
+        await page.locator('h1', {hasText: title}).click();
+        await page.locator('a', {hasText: ' Edit Article '}).first().click();
+
+        await page.locator('[formcontrolname="title"]').fill(title2);
+        await page.getByRole('button', {name: ' Publish Article '}).click();
+
+        await expect(page.locator('h1', {hasText: title2})).toBeVisible();
+    
     })
 
 });
