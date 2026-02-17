@@ -9,6 +9,7 @@ test.describe('Logged in user tests', () => {
     let username = 'Sakimafia122';
 
     //Articles
+    const comment = 'Ovo je moj prvi komentar';
     const title = 'Novak Djokovic je sampion';
     const description = 'Sampion tenisa i direktor univerzuma';
     const tags = 'Tennis';
@@ -172,6 +173,29 @@ await newPage.close();
 
         await expect(page.locator('li', {hasText: 'title must be unique'})).toBeVisible();
         await expect(page.locator('.error-messages')).toHaveCSS('color', 'rgb(184, 92, 92)');
+    })
+
+    test('@smoke Add a comment', async ({page}) => {
+
+        await page.locator(`a[href="/profile/${username}"]`).first().click();
+        await page.locator('h1', {hasText: title}).click();
+
+        await page.getByPlaceholder('Write a comment...').click();
+        await page.getByPlaceholder('Write a comment...').fill(comment);
+
+        await page.getByRole('button', {name: ' Post Comment '}).click();
+        await expect(page.locator('p', {hasText: comment})).toBeVisible();
+    });
+
+    test('@smoke Delete the comment', async ({page}) => {
+
+        await page.locator(`a[href="/profile/${username}"]`).first().click();
+        await page.locator('h1', {hasText: title}).click();
+
+        const commentField = page.locator('app-article-comment', {hasText: comment});
+
+        await commentField.locator('.ion-trash-a').click();
+        await expect(page.locator('.card-text', {hasText: comment})).not.toBeVisible();
     })
 
 });
