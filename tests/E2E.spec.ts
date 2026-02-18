@@ -210,6 +210,28 @@ await newPage.close();
 
         await expect(page.locator('h1', {hasText: title2})).toBeVisible();
     
+    });
+
+    test('@regression Navigation bar is visible', async ({page}) => {
+        //The issue was identified during testing of this test page. 
+        //This scenario demonstrates that the issue is present under specific conditions.
+
+        await page.locator(`a[href="/profile/${username}"]`).first().click();
+
+        await expect(page.getByRole('link', { name: 'Home' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'New Article' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Settings' })).toBeVisible();
+        await expect(page.getByRole('link', { name: username })).toBeVisible();
+        
+        await page.locator('h1', {hasText: title}).click();
+        await page.locator('a', {hasText: ' Edit Article '}).first().click();
+        await page.waitForTimeout(4000);
+        await page.goBack();
+
+        await expect(page.getByRole('link', { name: 'Home' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'New Article' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Settings' })).toBeVisible();
+        await expect(page.getByRole('link', { name: username })).toBeVisible();
     })
 
 });
