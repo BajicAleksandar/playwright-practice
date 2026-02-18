@@ -232,7 +232,25 @@ await newPage.close();
         await expect(page.getByRole('link', { name: 'New Article' })).toBeVisible();
         await expect(page.getByRole('link', { name: 'Settings' })).toBeVisible();
         await expect(page.getByRole('link', { name: username })).toBeVisible();
-    })
+    });
+
+    test('@regression The post is visible in Your Feed', async ({page}) => {
+        //The issue was identified during testing of this test page.
+
+        await expect(page.locator('h1', {hasText: title})).toBeVisible();
+
+        await page.locator('a', {hasText: ' Your Feed '}).click();
+        await expect(page.locator('h1', {hasText: title})).toBeVisible();
+
+    });
+
+    test('@regression Change the page', async ({page}) => {
+
+        await page.locator('.page-link', { hasText: '2' }).click();
+        await expect(page.locator('app-article-list')).not.toHaveCount(0);
+        await expect(page.locator('.tag-list')).toBeVisible();
+    });
+
 
 });
 
