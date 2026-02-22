@@ -2,8 +2,6 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../Pages/LoginPage';
 import { LogoutPage } from '../Pages/LogoutPage';
 
-test.setTimeout(80000);
-
 test.describe('Logged in user tests', () => {
 
     let userEmail = 'Sakismafia122@mail.com';
@@ -254,7 +252,7 @@ await newPage.close();
     });
 
     test('@regression Each tag shows at least one article', async ({page}) => {
-
+        test.setTimeout(80000);
         await page.waitForTimeout(2000)
 
         // Uzimamo samo tagove iz sidebara (Popular Tags)
