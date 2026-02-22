@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../Pages/LoginPage';
 import { LogoutPage } from '../Pages/LogoutPage';
 
+test.setTimeout(80000);
+
 test.describe('Logged in user tests', () => {
 
     let userEmail = 'Sakismafia122@mail.com';
@@ -249,6 +251,40 @@ await newPage.close();
         await page.locator('.page-link', { hasText: '2' }).click();
         await expect(page.locator('app-article-list')).not.toHaveCount(0);
         await expect(page.locator('.tag-list')).toBeVisible();
+    });
+
+    test('@regression Each tag shows at least one article', async ({page}) => {
+
+        await page.waitForTimeout(2000)
+
+        // Uzimamo samo tagove iz sidebara (Popular Tags)
+    const tags2 = page.locator('.sidebar .tag-pill');
+    const tagCount = await tags2.count();
+
+    for (let i = 0; i < tagCount; i++) {
+
+        // Ponovo dohvatamo tag u svakoj iteraciji
+        const tag = page.locator('.sidebar .tag-pill').nth(i);
+        const tagName = (await tag.innerText()).trim();
+
+        await tag.click();
+        await page.waitForTimeout(2500)
+
+        const activeTag = page.locator('.feed-toggle');
+
+        await expect(activeTag.locator('i.ion-pound')).toBeVisible();
+
+        await expect(activeTag).toContainText(tagName);
+
+        // Proveri da se bar jedan article pojavio
+
+        const articles = page.locator('app-article-preview');
+        await expect(articles.first()).toBeVisible();
+
+        const articleCount = await articles.count();
+        expect(articleCount).toBeGreaterThan(0);
+
+        };
     });
 
 
