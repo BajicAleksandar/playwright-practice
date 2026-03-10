@@ -285,6 +285,10 @@ await newPage.close();
         };
     });
 
+    test('@smoke open menu depending on device', async ({page}, testInfo) => {
+        await page.goto('https://www.tehnomanija.rs/')
+    });
+
 
 });
 
