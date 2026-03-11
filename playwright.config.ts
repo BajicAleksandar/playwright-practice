@@ -50,6 +50,11 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
 
+   {
+      name: 'mobile',
+      use: { ...devices['iPhone 13'] },
+    },
+
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',
