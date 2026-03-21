@@ -52,6 +52,7 @@ export default defineConfig({
 
    {
       name: 'mobile',
+      testMatch: 'mobile.spec.ts',
       use: { ...devices['iPhone 13'] },
     },
 
